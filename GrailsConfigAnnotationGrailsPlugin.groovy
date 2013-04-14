@@ -37,8 +37,7 @@ Brief summary/description of the plugin.
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/grails-config-annotation"
 
-    private List annotatedBeans = []
-    static Set<Class> annotatedClasses = []
+    private GrailsConfigAnnotationHandler handler = GrailsConfigAnnotationHandler.instance
 
     def doWithSpring = {
         grailsConfigBeanPostProcessor(GrailsConfigBeanPostProcessor)
@@ -85,8 +84,8 @@ Brief summary/description of the plugin.
             if (clazz) {
                 println "updating beans config values of class ${event.source}"
 
-                GrailsConfigAnnotationHandler.resetClass(clazz)
-                GrailsConfigAnnotationHandler.initClass(clazz, application)
+                handler.resetClass(clazz)
+                handler.initClass(clazz, application)
 
                 println "completed"
             }
@@ -99,8 +98,8 @@ Brief summary/description of the plugin.
     def onConfigChange = { event ->
         //I think we can save beans and update beans
         //But this is safer approach
-        GrailsConfigAnnotationHandler.annotatedClasses.each { clazz ->
-            GrailsConfigAnnotationHandler.initClass(clazz, application)
+        handler.annotatedClasses.each { clazz ->
+            handler.initClass(clazz, application)
         }
     }
 
