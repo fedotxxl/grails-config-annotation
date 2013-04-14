@@ -1,6 +1,5 @@
 package com.tenlittleniggers.grails.config
 
-import com.MySuperService
 import groovy.util.logging.Slf4j
 import org.codehaus.groovy.grails.commons.GrailsApplication
 
@@ -10,31 +9,62 @@ import java.lang.reflect.Field
 @Slf4j
 class GrailsConfigAnnotationHandler {
 
-    static void initObject(Object obj, GrailsApplication application) {
-        def annotated = GrailsConfigAnnotationHandler.getGrailsConfigAnnotationsByFields(obj.class)
-        if (annotated) {
-            annotated.each { an ->
-                def field = an.key, annotation = an.value
-                GrailsConfigAnnotationHandler.updateAnnotatedConfigProperty(obj, application.config.flatten(), field, annotation)
-            }
+    private static Map annotatedClassesInfo = [:]
+    private static String grailsConfigCanonicalName = GrailsConfig.canonicalName
+
+    static Set getAnnotatedClasses() {
+        return this.annotatedClassesInfo.keySet()
+    }
+
+    static List<Map> initObject(Object obj, GrailsApplication application) {
+        def answer = getFieldsAndAnnotationsForClass(obj.class)
+
+        answer.each {
+            def field = it[0], annotation = it[1]
+            GrailsConfigAnnotationHandler.updateAnnotatedConfigProperty(obj, application.config.flatten(), field, annotation)
         }
+
+        return answer
     }
 
     static List<Map> initClass(Class clazz, GrailsApplication application) {
         def answer = []
 
-        def annotated = GrailsConfigAnnotationHandler.getGrailsConfigAnnotationsByFields(clazz)
-        if (annotated) {
+        def fieldsAndAnnotations = getFieldsAndAnnotationsForClass(clazz)
+        if (fieldsAndAnnotations) {
             def beans = application.mainContext.getBeansOfType(clazz).values()
             beans.each { bean ->
-                annotated.each { an ->
-                    def field = an.key, annotation = an.value
+                fieldsAndAnnotations.each {
+                    def field = it[0], annotation = it[1]
                     //update bean field value
                     GrailsConfigAnnotationHandler.updateAnnotatedConfigProperty(bean, application.config.flatten(), field, annotation)
-                    //save this info
+                    //save answer value
                     answer << [bean, field, annotation]
                 }
             }
+        }
+
+        return answer
+    }
+
+    static void resetClass(Class clazz) {
+        annotatedClassesInfo[clazz] = null
+    }
+
+    private static getFieldsAndAnnotationsForClass(Class clazz) {
+        def answer = annotatedClassesInfo[clazz]
+        if (answer == null) {
+            answer = []
+
+            def annotated = GrailsConfigAnnotationHandler.getGrailsConfigAnnotationsByFields(clazz)
+            if (annotated) {
+                annotated.each { an ->
+                    def field = an.key, annotation = an.value
+                    answer << [field, annotation]
+                }
+            }
+
+            this.annotatedClassesInfo[clazz] = answer
         }
 
         return answer
@@ -75,7 +105,7 @@ class GrailsConfigAnnotationHandler {
             }
 
             if (oldValue != newValue) {
-                log.info "@GrailsConfig: Overriding old value (${oldValue}) of field '${field.name}' of class '${obj.class.name}' with new one (${propertyValue})"
+                log.warn "@GrailsConfig: Overriding old value (${oldValue}) of field '${field.name}' of class '${obj.class.name}' with new one (${propertyValue})"
 
                 //assign getter and internal value because of transactional services
                 //http://grails.1312388.n4.nabble.com/Transactional-services-and-variable-assignment-td4643464.html
@@ -88,10 +118,13 @@ class GrailsConfigAnnotationHandler {
     static Map getGrailsConfigAnnotationsByFields(Class clazz) {
         def answer = [:]
 
-        clazz.declaredFields.each { field ->
-            def annotation = field.declaredAnnotations?.find {it.annotationType() == GrailsConfig}
-            if (annotation) {
-                answer[field] = annotation
+        if (clazz) {
+            clazz.declaredFields.each { field ->
+//                def annotation = field.declaredAnnotations?.find {it.annotationType() == GrailsConfig}
+                def annotation = field.declaredAnnotations?.find {it.annotationType().canonicalName == grailsConfigCanonicalName}
+                if (annotation) {
+                    answer[field] = annotation
+                }
             }
         }
 

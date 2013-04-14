@@ -2,6 +2,8 @@ package com
 
 import com.tenlittleniggers.grails.config.GrailsConfig
 
+import javax.annotation.PostConstruct
+
 /**
  * Created with IntelliJ IDEA.
  * User: fbelov
@@ -12,8 +14,13 @@ import com.tenlittleniggers.grails.config.GrailsConfig
 class MySuperService {
 
     @GrailsConfig("my.another:trlolo!!?")
-    Integer configValue = 99
+    private configValue = 99
 
     @GrailsConfig("my.config")
-    Integer anotherConfig = 7
+    private anotherConfig = 7
+
+    @PostConstruct
+    private setUp() {
+        println "transactional: ${this}: ${this.anotherConfig}; ${this.@anotherConfig}"
+    }
 }

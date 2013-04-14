@@ -2,6 +2,7 @@ import com.MySuperService
 import com.tenlittleniggers.grails.config.GrailsConfigAnnotationHandler
 import com.tenlittleniggers.grails.config.GrailsConfigAnnotationHandler
 import com.tenlittleniggers.grails.config.GrailsConfigAnnotationInitializer
+import com.tenlittleniggers.grails.config.GrailsConfigBeanPostProcessor
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.core.io.FileSystemResource
 
@@ -29,24 +30,30 @@ Brief summary/description of the plugin.
 '''
 
     //watch for all scss file changes
-//    def watchedResources = ["file:./**/*.groovy"]
+    def watchedResources = ["file:./**/*.groovy"]
 
-    def observe = ['*']
+//    def observe = ['*']
 
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/grails-config-annotation"
 
     private List annotatedBeans = []
-    private Set<Class> annotatedClasses = []
+    static Set<Class> annotatedClasses = []
+
+    def doWithSpring = {
+        grailsConfigBeanPostProcessor(GrailsConfigBeanPostProcessor)
+    }
 
     def doWithApplicationContext = { applicationContext ->
-        //init handler
-        GrailsConfigAnnotationInitializer.application = application
-
-        //update beans
-        application.allArtefacts.each { clazz ->
-            initClassAndSave(clazz, application)
-        }
+//        //init handler
+//        println GrailsConfigAnnotationHandler.calls
+//        println GrailsConfigAnnotationHandler.times
+//        GrailsConfigAnnotationInitializer.application = application
+//
+//        //update beans
+//        application.allArtefacts.each { clazz ->
+//            GrailsConfigAnnotationHandler.initClass(clazz, application)
+//        }
     }
 
 //    private updateAnnotatedConfigPropertiesOfClass(def clazz, def application) {
@@ -68,11 +75,20 @@ Brief summary/description of the plugin.
 
     def onChange = { event ->
         try {
+            Class clazz = null
             if(event.source instanceof java.lang.Class) {
-                println "updating beans config values of class ${event.source}"
-                initClassAndSave(event.source, application)
+                clazz = event.source
             } else {
                 println "event - ${event.source}"
+            }
+
+            if (clazz) {
+                println "updating beans config values of class ${event.source}"
+
+                GrailsConfigAnnotationHandler.resetClass(clazz)
+                GrailsConfigAnnotationHandler.initClass(clazz, application)
+
+                println "completed"
             }
         } catch (Throwable e) {
             println "Config annotation: exception on processing change event: ${event} - ${e}"
@@ -83,14 +99,8 @@ Brief summary/description of the plugin.
     def onConfigChange = { event ->
         //I think we can save beans and update beans
         //But this is safer approach
-        annotatedClasses.each {
-            initClassAndSave(it, application)
-        }
-    }
-
-    private initClassAndSave(Class clazz, GrailsApplication application) {
-        GrailsConfigAnnotationHandler.initClass(clazz, application).each {
-            annotatedClasses << it.bean.class
+        GrailsConfigAnnotationHandler.annotatedClasses.each { clazz ->
+            GrailsConfigAnnotationHandler.initClass(clazz, application)
         }
     }
 
