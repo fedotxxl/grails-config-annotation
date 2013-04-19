@@ -9,7 +9,12 @@ class GrailsConfigAnnotationGrailsPlugin {
     // the other plugins this plugin depends on
     def dependsOn = [:]
     // resources that are excluded from plugin packaging
-    def pluginExcludes = []
+    def pluginExcludes = [
+            "grails-app/controllers/com/tenlittleniggers/grails/config/test/MainController.groovy",
+            "grails-app/services/com/tenlittleniggers/grails/config/test/TransactionalService.groovy",
+            "grails-app/services/com/tenlittleniggers/grails/config/test/SimpleService.groovy",
+            "src/groovy/com/tenlittleniggers/grails/config/test/UsersBean.groovy"
+    ]
 
     def title = "Grails Config Annotation Plugin" // Headline display name of the plugin
     def author = "fedor.belov"

@@ -22,3 +22,11 @@ log4j = {
 
     warn   'org.mortbay.log'
 }
+
+app {
+    superSimpleVariable = "this is simple string variable"
+    integerValue = 69
+    privateVariable = "private variable value"
+    transactionalVariable = "transactional variable value"
+    customBeanVariable = "my custom bean"
+}

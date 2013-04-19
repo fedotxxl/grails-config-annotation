@@ -1,12 +1,16 @@
-<plugin name='grails-config-annotation' version='1.0' grailsVersion='2.1 &gt; *'>
-  <author>Your name</author>
+<plugin name='grails-config-annotation' version='1.0' grailsVersion='2.0 &gt; *'>
+  <author>fedor.belov</author>
+  <authorEmail>fedor.belov@mail.ru</authorEmail>
   <title>Grails Config Annotation Plugin</title>
   <description>Brief summary/description of the plugin.
 </description>
   <documentation>http://grails.org/plugin/grails-config-annotation</documentation>
   <type>GrailsConfigAnnotationGrailsPlugin</type>
   <resources>
-    <resource>com.MySuperService</resource>
+    <resource>spring.resources</resource>
+    <resource>com.tenlittleniggers.grails.config.test.MainController</resource>
+    <resource>com.tenlittleniggers.grails.config.test.SimpleService</resource>
+    <resource>com.tenlittleniggers.grails.config.test.TransactionalService</resource>
   </resources>
   <repositories>
     <repository name='grailsCentral' url='http://grails.org/plugins' />
