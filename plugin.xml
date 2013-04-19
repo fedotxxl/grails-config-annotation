@@ -1,4 +1,4 @@
-<plugin name='grails-config-annotation' version='0.1' grailsVersion='2.1.1 &gt; *'>
+<plugin name='grails-config-annotation' version='1.0' grailsVersion='2.1 &gt; *'>
   <author>Your name</author>
   <title>Grails Config Annotation Plugin</title>
   <description>Brief summary/description of the plugin.
@@ -12,22 +12,9 @@
     <repository name='grailsCentral' url='http://grails.org/plugins' />
     <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
     <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
-    <repository name='http://grails.org/plugins' url='http://grails.org/plugins' />
   </repositories>
   <dependencies />
-  <plugins>
-    <compile>
-      <plugin group='org.grails.plugins' name='cache' version='1.0.0' />
-    </compile>
-    <runtime>
-      <plugin group='org.grails.plugins' name='hibernate' version='2.1.1' />
-      <plugin group='org.grails.plugins' name='resources' version='1.2.RC2' />
-      <plugin group='org.grails.plugins' name='jquery' version='1.8.0' />
-    </runtime>
-    <build>
-      <plugin group='org.grails.plugins' name='tomcat' version='2.1.1' />
-    </build>
-  </plugins>
+  <plugins />
   <runtimePluginRequirements />
   <behavior />
 </plugin>
