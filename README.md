@@ -1,7 +1,7 @@
 Description
 -----------
 <pre>
-Russian documentation is available [here](https://github.com/fedotxxl/grails-config-annotation/blob/master/README_RU.md)
+Russian documentation is available <a href="https://github.com/fedotxxl/grails-config-annotation/blob/master/README_RU.md">here</a>
 </pre>
 This plugin simplifies process of using config value in your Spring beans (controllers, services, taglibs and etc.). Let's check how you can use config value now:
 
