@@ -1,5 +1,8 @@
 Описание
 -----------
+<pre>
+English documentation is available <a href="https://github.com/fedotxxl/grails-config-annotation/blob/master/README.md">here</a>
+</pre>
 Данный плагин позволяет удобно использовать конфигурационные данные (как правило из файла `Config.groovy`) в бинах Spring'а (сервисах, контроллерах, taglib'ах и т.д.).
 Рассмотрим, как это можно было сделать раньше:
 ```java
