@@ -26,8 +26,9 @@ Brief summary/description of the plugin.
     //watch for all scss file changes
     def watchedResources = ["file:./**/*.groovy"]
 
-    // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/grails-config-annotation"
+    def documentation = "https://github.com/fedotxxl/grails-config-annotation/blob/master/README.md"
+    def scm = [url: 'https://github.com/fedotxxl/grails-config-annotation']
+    def issueManagement = [system: "GITHUB", url: "https://github.com/fedotxxl/grails-config-annotation/issues"]
 
     private GrailsConfigAnnotationHandler handler = GrailsConfigAnnotationHandler.instance
 
