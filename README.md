@@ -25,7 +25,7 @@ class MyService {
 
 }
 ```
-I think this is not the best approach - why do you need inject `grailsApplication` bean only to read config value? Let's improve this code:
+I think this is not the best approach - why do you need to inject `grailsApplication` bean only to read config value? Let's improve this code:
 ```java
 import grails.util.Holders
 
@@ -66,13 +66,13 @@ class MyService {
 
 }
 ```
-All you have to do is:
-1. Import annotation: `import com.tenlittleniggers.grails.config.GrailsConfig`
-2. Add `@GrailsConfig` annotation to variable. Annotation value should be the same as variable name from `Config.groovy` file (in our case `app.myVariable`):  `@GrailsConfig("app.myVariable")`.
+All you have to do is:  
+1. Import annotation: `import com.tenlittleniggers.grails.config.GrailsConfig`  
+2. Add `@GrailsConfig` annotation to the variable. Annotation value should be the same as variable name from `Config.groovy` file (in our case `app.myVariable`):  `@GrailsConfig("app.myVariable")`.
 
 Default values
 ---------------------
-You can specify default variable value. When `Config.groovy` file doesn't have required variable default value will be used to configure variable. To configure default value use following annotation value structure: `config_variable_name_to_inject:default value`. For example:
+You can specify default variable value. When `Config.groovy` file doesn't have required variable default value will be used to configure variable. To configure default value use the following annotation value structure: `config_variable_name_to_inject:default value`. For example:
 
 ```java
 import com.tenlittleniggers.grails.config.GrailsConfig
@@ -92,7 +92,7 @@ When file `Config.groovy` doesn't have variable `app.myVariable`, then default v
 
 Types casting
 --------------------
-You can explicitly specify variable type. Then variable value will be cast to required type. For example:
+You can explicitly specify the variable type. Then variable value will be type casted to required type. For example:
 
 ```java
 import com.tenlittleniggers.grails.config.GrailsConfig
@@ -108,11 +108,11 @@ class MyService {
 
 }
 ```
-In this case value of config variable `app.myVariable` or default value `-1` will be casted to `Integer` type.
+In this case value of config variable `app.myVariable` or default value `-1` will be type casted to `Integer` type.
 
 Code reloading
 ---------------
-This plugin supports development with enabled code reloading (`grails run-app`) - variable values should be updated as you expect it. Variable value should be updated in following cases:
+This plugin supports development with enabled code reloading (`grails run-app`) - variable values should be updated as you expect it. Variable value should be updated in the following cases:
 
 *   When you add/remove annotated variable
 *   When you change config variable value in `Config.groovy`
@@ -120,7 +120,7 @@ This plugin supports development with enabled code reloading (`grails run-app`) 
 
 If you have any problems
 -------------------------
-If you have any problems or suggestions pls feel free [to ask me](https://github.com/fedotxxl/grails-config-annotation/issues) - I'll answer you with pleasure.
+If you have any problems or suggestions pls feel free [to ask me](https://github.com/fedotxxl/grails-config-annotation/issues) - I'll be glad to answer you.
 
 In conclusion
 ------------
