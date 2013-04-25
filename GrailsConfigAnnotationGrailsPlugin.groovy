@@ -25,7 +25,7 @@ class GrailsConfigAnnotationGrailsPlugin {
     def author = "fedor.belov"
     def authorEmail = "fedor.belov@mail.ru"
     def description = '''\
-This config adds `@GrailsConfig` annotation that gives you simple way to
+This plugin adds `@GrailsConfig` annotation that gives you simple way to
 inject config value into your beans (services, controllers, tagLibs and etc.)
 '''
 
