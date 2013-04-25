@@ -29,4 +29,5 @@ app {
     privateVariable = "private variable value"
     transactionalVariable = "transactional variable value"
     customBeanVariable = "my custom bean"
+    nullVarialbe = null
 }

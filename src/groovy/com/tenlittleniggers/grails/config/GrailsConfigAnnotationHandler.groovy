@@ -76,19 +76,22 @@ class GrailsConfigAnnotationHandler {
         if (!configParamAndValue) {
             log.warn "Can't set config value for field '${field.name}' of class '${obj.class}' because @GrailsConfig.value() == null"
         } else {
-            def configParam, value
+            def configParam, defaultValue
             def pos = configParamAndValue.indexOf(":")
 
             if (pos >= 0) {
                 configParam = configParamAndValue.substring(0, pos)
-                value = configParamAndValue.substring(pos+1)
+                defaultValue = configParamAndValue.substring(pos+1)
             } else {
                 configParam = configParamAndValue
+                defaultValue = null
             }
 
-            def propertyValue = config.get(configParam)
-            if (propertyValue == null && value != null) {
-                propertyValue = value
+            def propertyValue
+            if (config.containsKey(configParam)) {
+                propertyValue = config.get(configParam)
+            } else {
+                propertyValue = defaultValue
             }
 
             def oldValue = obj.@"${field.name}"
@@ -106,7 +109,7 @@ class GrailsConfigAnnotationHandler {
             }
 
             if (oldValue != newValue) {
-                log.warn "@GrailsConfig: Overriding old value (${oldValue}) of field '${field.name}' of class '${obj.class.name}' with new one (${propertyValue})"
+                log.info "@GrailsConfig: Overriding old value (${oldValue}) of field '${field.name}' of class '${obj.class.name}' with new one (${propertyValue})"
 
                 //assign getter and internal value because of transactional services
                 //http://grails.1312388.n4.nabble.com/Transactional-services-and-variable-assignment-td4643464.html
