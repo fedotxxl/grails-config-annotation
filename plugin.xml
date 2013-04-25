@@ -2,7 +2,8 @@
   <author>fedor.belov</author>
   <authorEmail>fedor.belov@mail.ru</authorEmail>
   <title>Grails Config Annotation Plugin</title>
-  <description>Brief summary/description of the plugin.
+  <description>This config adds `@GrailsConfig` annotation that gives you simple way to
+inject config value into your beans (services, controllers, tagLibs and etc.)
 </description>
   <documentation>https://github.com/fedotxxl/grails-config-annotation/blob/master/README.md</documentation>
   <type>GrailsConfigAnnotationGrailsPlugin</type>
