@@ -30,7 +30,10 @@ inject config value into your beans (services, controllers, tagLibs and etc.)
 '''
 
     //watch for all scss file changes
-    def watchedResources = ["file:./**/*.groovy"]
+    def watchedResources = [
+            'file:./grails-app/**/*.groovy',
+            'file:./src/**/*.groovy'
+    ]
 
     def documentation = "https://github.com/fedotxxl/grails-config-annotation/blob/master/README.md"
     def scm = [url: 'https://github.com/fedotxxl/grails-config-annotation']
