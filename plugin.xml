@@ -4,7 +4,7 @@
   <title>Grails Config Annotation Plugin</title>
   <description>Brief summary/description of the plugin.
 </description>
-  <documentation>http://grails.org/plugin/grails-config-annotation</documentation>
+  <documentation>https://github.com/fedotxxl/grails-config-annotation/blob/master/README.md</documentation>
   <type>GrailsConfigAnnotationGrailsPlugin</type>
   <resources>
     <resource>spring.resources</resource>
@@ -17,7 +17,12 @@
     <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
     <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
   </repositories>
-  <dependencies />
+  <dependencies>
+    <test>
+      <dependency group='org.spockframework' name='spock-grails-support' version='0.7-groovy-1.8' />
+      <dependency group='org.grails.plugins' name='spock' version='0.7' />
+    </test>
+  </dependencies>
   <plugins />
   <runtimePluginRequirements />
   <behavior />
