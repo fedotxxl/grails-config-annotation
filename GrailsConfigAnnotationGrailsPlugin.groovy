@@ -1,7 +1,12 @@
 import com.tenlittleniggers.grails.config.GrailsConfigAnnotationHandler
 import com.tenlittleniggers.grails.config.GrailsConfigBeanPostProcessor
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class GrailsConfigAnnotationGrailsPlugin {
+
+    private static final Logger LOG = LoggerFactory.getLogger("com.tenlittleniggers.grails.config.GrailsConfigAnnotationGrailsPlugin")
+
     // the plugin version
     def version = "1.0"
     // the version or versions of Grails the plugin is designed for
@@ -20,7 +25,8 @@ class GrailsConfigAnnotationGrailsPlugin {
     def author = "fedor.belov"
     def authorEmail = "fedor.belov@mail.ru"
     def description = '''\
-Brief summary/description of the plugin.
+This config adds `@GrailsConfig` annotation that gives you simple way to
+inject config value into your beans (services, controllers, tagLibs and etc.)
 '''
 
     //watch for all scss file changes
@@ -42,29 +48,32 @@ Brief summary/description of the plugin.
             if(event.source instanceof java.lang.Class) {
                 clazz = event.source
             } else {
-                println "event - ${event.source}"
+                LOG.debug "@GrailsConfig: skip change event - ${event.source}"
             }
 
             if (clazz) {
-                println "updating beans config values of class ${event.source}"
+                LOG.trace "@GrailsConfig: updating beans config values of class ${event.source}"
 
                 handler.resetClass(clazz)
                 handler.initClass(clazz, application)
 
-                println "completed"
+                LOG.trace "@GrailsConfig: onChange completed"
             }
         } catch (Throwable e) {
-            println "Config annotation: exception on processing change event: ${event} - ${e}"
-            e.printStackTrace()
+            LOG.error "@GrailsConfig: exception on processing change event: ${event} - ${e}", e
         }
     }
 
     def onConfigChange = { event ->
+        LOG.trace "@GrailsConfig: processing config change event"
+
         //I think we can save beans and update beans
         //But this is safer approach
         handler.annotatedClasses.each { clazz ->
             handler.initClass(clazz, application)
         }
+
+        LOG.trace "@GrailsConfig: completed processing config change event"
     }
 
 }

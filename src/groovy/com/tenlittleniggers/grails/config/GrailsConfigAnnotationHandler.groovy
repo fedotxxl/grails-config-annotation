@@ -72,9 +72,11 @@ class GrailsConfigAnnotationHandler {
     }
 
     private void updateAnnotatedConfigProperty(Object obj, ConfigObject config, Field field, Annotation annotation) {
+        log.debug "@GrailsConfig: initializing object {}, field {}", obj, field
+
         String configParamAndValue = annotation.value()
         if (!configParamAndValue) {
-            log.warn "Can't set config value for field '${field.name}' of class '${obj.class}' because @GrailsConfig.value() == null"
+            log.warn "@GrailsConfig: Can't set config value for field '${field.name}' of class '${obj.class}' because @GrailsConfig.value() == null"
         } else {
             def configParam, defaultValue
             def pos = configParamAndValue.indexOf(":")
@@ -117,6 +119,8 @@ class GrailsConfigAnnotationHandler {
                 obj."${field.name}" = newValue
             }
         }
+
+        log.debug "@GrailsConfig: completed initializing object {}, field {}", obj, field
     }
 
     private Map getGrailsConfigAnnotationsByFields(Class clazz) {
