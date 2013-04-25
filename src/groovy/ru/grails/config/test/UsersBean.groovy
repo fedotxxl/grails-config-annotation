@@ -1,9 +1,9 @@
 /*
  * UsersBean
  */
-package com.tenlittleniggers.grails.config.test
+package ru.grails.config.test
 
-import com.tenlittleniggers.grails.config.GrailsConfig
+import ru.grails.config.GrailsConfig
 
 class UsersBean {
 

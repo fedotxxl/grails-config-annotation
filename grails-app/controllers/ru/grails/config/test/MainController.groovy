@@ -1,7 +1,7 @@
 /*
  * MainController
  */
-package com.tenlittleniggers.grails.config.test
+package ru.grails.config.test
 
 class MainController {
 

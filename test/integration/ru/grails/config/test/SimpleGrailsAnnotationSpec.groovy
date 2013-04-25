@@ -1,7 +1,7 @@
 /*
  * SimpleGrailsAnnotationSpec
  */
-package com.tenlittleniggers.grails.config.test
+package ru.grails.config.test
 import grails.plugin.spock.IntegrationSpec
 import grails.util.Holders
 

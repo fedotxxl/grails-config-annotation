@@ -1,8 +1,8 @@
 /*
  * SimpleService
  */
-package com.tenlittleniggers.grails.config.test
-import com.tenlittleniggers.grails.config.GrailsConfig
+package ru.grails.config.test
+import ru.grails.config.GrailsConfig
 
 class SimpleService {
 

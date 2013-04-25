@@ -1,9 +1,9 @@
 /*
  * TransactionalService
  */
-package com.tenlittleniggers.grails.config.test
+package ru.grails.config.test
 
-import com.tenlittleniggers.grails.config.GrailsConfig
+import ru.grails.config.GrailsConfig
 import grails.util.Holders
 
 import javax.annotation.PostConstruct

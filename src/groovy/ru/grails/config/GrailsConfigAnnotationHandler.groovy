@@ -1,4 +1,4 @@
-package com.tenlittleniggers.grails.config
+package ru.grails.config
 
 import groovy.util.logging.Slf4j
 import org.codehaus.groovy.grails.commons.GrailsApplication

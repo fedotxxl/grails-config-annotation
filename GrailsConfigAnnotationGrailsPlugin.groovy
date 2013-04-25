@@ -1,11 +1,11 @@
-import com.tenlittleniggers.grails.config.GrailsConfigAnnotationHandler
-import com.tenlittleniggers.grails.config.GrailsConfigBeanPostProcessor
+import ru.grails.config.GrailsConfigAnnotationHandler
+import ru.grails.config.GrailsConfigBeanPostProcessor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class GrailsConfigAnnotationGrailsPlugin {
 
-    private static final Logger LOG = LoggerFactory.getLogger("com.tenlittleniggers.grails.config.GrailsConfigAnnotationGrailsPlugin")
+    private static final Logger LOG = LoggerFactory.getLogger("ru.grails.config.GrailsConfigAnnotationGrailsPlugin")
 
     // the plugin version
     def version = "1.0"
@@ -15,10 +15,10 @@ class GrailsConfigAnnotationGrailsPlugin {
     def dependsOn = [:]
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-            "grails-app/controllers/com/tenlittleniggers/grails/config/test/MainController.groovy",
-            "grails-app/services/com/tenlittleniggers/grails/config/test/TransactionalService.groovy",
-            "grails-app/services/com/tenlittleniggers/grails/config/test/SimpleService.groovy",
-            "src/groovy/com/tenlittleniggers/grails/config/test/UsersBean.groovy"
+            "grails-app/controllers/ru/grails/config/test/MainController.groovy",
+            "grails-app/services/ru/grails/config/test/TransactionalService.groovy",
+            "grails-app/services/ru/grails/config/test/SimpleService.groovy",
+            "src/groovy/ru/grails/config/test/UsersBean.groovy"
     ]
 
     def title = "Grails Config Annotation Plugin" // Headline display name of the plugin

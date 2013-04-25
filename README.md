@@ -53,7 +53,7 @@ How can I use Grails Config Annotation to inject config value?
 Here is similar problem solved with Grails Config Annotation:
 
 ```java
-import com.tenlittleniggers.grails.config.GrailsConfig
+import ru.grails.config.GrailsConfig
 
 class MyService {
 
@@ -67,7 +67,7 @@ class MyService {
 }
 ```
 All you have to do is:  
-1. Import annotation: `import com.tenlittleniggers.grails.config.GrailsConfig`  
+1. Import annotation: `import ru.grails.config.GrailsConfig`
 2. Add `@GrailsConfig` annotation to the variable. Annotation value should be the same as variable name from `Config.groovy` file (in our case `app.myVariable`):  `@GrailsConfig("app.myVariable")`.
 
 Default values
@@ -75,7 +75,7 @@ Default values
 You can specify default variable value. When `Config.groovy` file doesn't have required variable default value will be used to configure variable. To configure default value use the following annotation value structure: `config_variable_name_to_inject:default value`. For example:
 
 ```java
-import com.tenlittleniggers.grails.config.GrailsConfig
+import ru.grails.config.GrailsConfig
 
 class MyService {
 
@@ -95,7 +95,7 @@ Types casting
 You can explicitly specify the variable type. Then variable value will be type casted to required type. For example:
 
 ```java
-import com.tenlittleniggers.grails.config.GrailsConfig
+import ru.grails.config.GrailsConfig
 
 class MyService {
 

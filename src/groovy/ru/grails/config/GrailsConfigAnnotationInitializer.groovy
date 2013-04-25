@@ -1,4 +1,4 @@
-package com.tenlittleniggers.grails.config
+package ru.grails.config
 
 import grails.util.Holders
 

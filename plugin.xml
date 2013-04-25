@@ -9,9 +9,9 @@ inject config value into your beans (services, controllers, tagLibs and etc.)
   <type>GrailsConfigAnnotationGrailsPlugin</type>
   <resources>
     <resource>spring.resources</resource>
-    <resource>com.tenlittleniggers.grails.config.test.MainController</resource>
-    <resource>com.tenlittleniggers.grails.config.test.SimpleService</resource>
-    <resource>com.tenlittleniggers.grails.config.test.TransactionalService</resource>
+    <resource>ru.grails.config.test.MainController</resource>
+    <resource>ru.grails.config.test.SimpleService</resource>
+    <resource>ru.grails.config.test.TransactionalService</resource>
   </resources>
   <repositories>
     <repository name='grailsCentral' url='http://grails.org/plugins' />

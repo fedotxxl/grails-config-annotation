@@ -1,4 +1,4 @@
-package com.tenlittleniggers.grails.config
+package ru.grails.config
 
 import org.springframework.beans.BeansException
 import org.springframework.beans.factory.config.BeanPostProcessor
