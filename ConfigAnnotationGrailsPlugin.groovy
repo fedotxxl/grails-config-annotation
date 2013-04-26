@@ -3,17 +3,12 @@ import ru.grails.config.GrailsConfigBeanPostProcessor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class GrailsConfigAnnotationGrailsPlugin {
+class ConfigAnnotationGrailsPlugin {
 
     private static final Logger LOG = LoggerFactory.getLogger("ru.grails.config.GrailsConfigAnnotationGrailsPlugin")
 
-    // the plugin version
     def version = "1.0"
-    // the version or versions of Grails the plugin is designed for
     def grailsVersion = "2.0 > *"
-    // the other plugins this plugin depends on
-    def dependsOn = [:]
-    // resources that are excluded from plugin packaging
     def pluginExcludes = [
             "grails-app/controllers/ru/grails/config/test/MainController.groovy",
             "grails-app/services/ru/grails/config/test/TransactionalService.groovy",
@@ -21,7 +16,7 @@ class GrailsConfigAnnotationGrailsPlugin {
             "src/groovy/ru/grails/config/test/UsersBean.groovy"
     ]
 
-    def title = "Grails Config Annotation Plugin" // Headline display name of the plugin
+    def title = "Grails Config Annotation Plugin"
     def author = "fedor.belov"
     def authorEmail = "fedor.belov@mail.ru"
     def description = '''\
@@ -47,8 +42,8 @@ inject config value into your beans (services, controllers, tagLibs and etc.)
 
     def onChange = { event ->
         try {
-            Class clazz = null
-            if(event.source instanceof java.lang.Class) {
+            Class clazz
+            if(event.source instanceof Class) {
                 clazz = event.source
             } else {
                 LOG.debug "@GrailsConfig: skip change event - ${event.source}"
