@@ -16,6 +16,7 @@ class ConfigAnnotationGrailsPlugin {
             "src/groovy/ru/grails/config/test/UsersBean.groovy"
     ]
 
+    def license = 'APACHE'
     def title = "Grails Config Annotation Plugin"
     def author = "fedor.belov"
     def authorEmail = "fedor.belov@mail.ru"
