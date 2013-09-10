@@ -21,6 +21,7 @@ class SimpleGrailsAnnotationSpec extends IntegrationSpec  {
         assert simpleService.integerValue == config.app.integerValue
         assert simpleService.privateVariable == config.app.privateVariable
         assert simpleService.nullValue == null
+        assert simpleService.simpleDefaultValue == new SimpleService().simpleDefaultValue
         assert transactionalService.@transactionalVariable == config.app.transactionalVariable
         assert transactionalService.getTransactionalVariable() == config.app.transactionalVariable
         assert usersBean.customBeanVariableValue == config.app.customBeanVariable

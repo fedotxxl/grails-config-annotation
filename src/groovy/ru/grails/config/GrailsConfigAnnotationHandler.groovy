@@ -12,6 +12,7 @@ class GrailsConfigAnnotationHandler {
 
     private Map annotatedClassesInfo = [:]
     private String grailsConfigCanonicalName = GrailsConfig.canonicalName
+    private ThreadLocal<Boolean> localSilent = new ThreadLocal<Boolean>()
 
     Set getAnnotatedClasses() {
         return this.annotatedClassesInfo.keySet()
@@ -72,11 +73,11 @@ class GrailsConfigAnnotationHandler {
     }
 
     private void updateAnnotatedConfigProperty(Object obj, ConfigObject config, Field field, Annotation annotation) {
-        log.debug "@GrailsConfig: initializing object {}, field {}", obj, field
+        if (!silent) log.debug "@GrailsConfig: initializing object {}, field {}", obj, field
 
         String configParamAndValue = annotation.value()
         if (!configParamAndValue) {
-            log.warn "@GrailsConfig: Can't set config value for field '${field.name}' of class '${obj.class}' because @GrailsConfig.value() == null"
+            if (!silent) log.warn "@GrailsConfig: Can't set config value for field '${field.name}' of class '${obj.class}' because @GrailsConfig.value() == null"
         } else {
             def configParam, defaultValue
             def pos = configParamAndValue.indexOf(":")
@@ -89,38 +90,52 @@ class GrailsConfigAnnotationHandler {
                 defaultValue = null
             }
 
-            def propertyValue
+            def useClassValue = false
+            def propertyValue = null
+
             if (config.containsKey(configParam)) {
                 propertyValue = config.get(configParam)
-            } else {
+            } else if (defaultValue != null) {
                 propertyValue = defaultValue
-            }
-
-            def oldValue = obj.@"${field.name}"
-            def newValue
-            if (propertyValue == null) {
-                newValue = null
             } else {
-                def casted = cast(propertyValue, field.type)
-                if (casted == null) {
-                    log.error "@GrailsConfig: Can't convert value '${propertyValue}' of field '${field.name}' of class '${obj.class.name}' to ${field.type}"
-                    return
-                } else {
-                    newValue = casted
-                }
+                //don't override class value when config doesn't contains required property
+                //and default value is not specified
+                useClassValue = true
             }
 
-            if (oldValue != newValue) {
-                log.info "@GrailsConfig: Overriding old value (${oldValue}) of field '${field.name}' of class '${obj.class.name}' with new one (${propertyValue})"
-
-                //assign getter and internal value because of transactional services
-                //http://grails.1312388.n4.nabble.com/Transactional-services-and-variable-assignment-td4643464.html
-                obj.@"${field.name}" = newValue
-                obj."${field.name}" = newValue
+            if (useClassValue) {
+                if (!silent) log.info "@GrailsConfig: use class value for field '${field.name}' of class '${obj.class.name}'"
+            } else {
+                assignFieldValue(obj, field, propertyValue)
             }
         }
 
-        log.debug "@GrailsConfig: completed initializing object {}, field {}", obj, field
+        if (!silent) log.debug "@GrailsConfig: completed initializing object {}, field {}", obj, field
+    }
+
+    private assignFieldValue(obj, field, propertyValue) {
+        def oldValue = obj.@"${field.name}"
+        def newValue
+        if (propertyValue == null) {
+            newValue = null
+        } else {
+            def casted = cast(propertyValue, field.type)
+            if (casted == null) {
+                if (!silent) log.error "@GrailsConfig: Can't convert value '${propertyValue}' of field '${field.name}' of class '${obj.class.name}' to ${field.type}"
+                return
+            } else {
+                newValue = casted
+            }
+        }
+
+        if (oldValue != newValue) {
+            if (!silent) log.info "@GrailsConfig: Overriding old value (${oldValue}) of field '${field.name}' of class '${obj.class.name}' with new one (${propertyValue})"
+
+            //assign getter and internal value because of transactional services
+            //http://grails.1312388.n4.nabble.com/Transactional-services-and-variable-assignment-td4643464.html
+            obj.@"${field.name}" = newValue
+            obj."${field.name}" = newValue
+        }
     }
 
     private Map getGrailsConfigAnnotationsByFields(Class clazz) {
@@ -145,6 +160,14 @@ class GrailsConfigAnnotationHandler {
         } catch (e) {
             return null
         }
+    }
+
+    void setSilent(Boolean silent) {
+        localSilent.set(silent)
+    }
+
+    Boolean getSilent() {
+        return localSilent.get()
     }
 
 }

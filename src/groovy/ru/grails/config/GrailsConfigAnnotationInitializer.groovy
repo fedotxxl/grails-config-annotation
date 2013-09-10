@@ -6,17 +6,23 @@ import grails.util.Holders
 class GrailsConfigAnnotationInitializer {
 
     private List initialized = []
+    private static handler = GrailsConfigAnnotationHandler.instance
 
-    static void init(Object obj) {
-        GrailsConfigAnnotationHandler.instance.initObject(obj, Holders.grailsApplication)
+    static void init(Object obj, Boolean silent = false) {
+        handler.silent = silent
+        handler.initObject(obj, Holders.grailsApplication)
     }
 
-    void initObjectWhenRequired(Object obj) {
+    void silentInit(Object obj) {
+        def silent = false
         def id = System.identityHashCode(obj)
 
         if (!initialized.contains(id)) {
-            init(obj)
             initialized << id
+        } else {
+            silent = true
         }
+
+        init(obj, silent)
     }
 }

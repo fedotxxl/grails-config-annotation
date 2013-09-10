@@ -23,6 +23,9 @@ class SimpleService {
     @GrailsConfig("app.nullVarialbe:default value")
     String nullValue
 
+    @GrailsConfig("app.nonExistingConfigValue")
+    Long simpleDefaultValue = 5
+
     String getPrivateVariable() {
         return this.@privateVariable
     }

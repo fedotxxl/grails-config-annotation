@@ -1,4 +1,8 @@
+grails.views.gsp.encoding="UTF-8"
+
 log4j = {
+    info 'ru.grails'
+
     error 'org.codehaus.groovy.grails',
           'org.springframework',
           'org.hibernate',
