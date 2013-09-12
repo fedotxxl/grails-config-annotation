@@ -90,6 +90,26 @@ class MyService {
 ```
 When file `Config.groovy` doesn't have variable `app.myVariable`, then default value `my default value` will be used to configure variable `myVariable`.
 
+Default values defined by class
+---------------------
+If `@GrailsConfig` annotation doesn't specify default value then value defined by class will be used as default. For example:
+
+```java
+import ru.grails.config.GrailsConfig
+
+class MyService {
+
+    @GrailsConfig("app.myDelay")
+    private Long myDelay = 5000
+
+    void doSomeCoolStuff() {
+        sleep(myDelay)
+    }
+
+}
+```
+When file `Config.groovy` doesn't have variable `app.myDelay`, then class value `5000` will be used to configure variable `myDelay`.
+
 Types casting
 --------------------
 You can explicitly specify the variable type. Then variable value will be type casted to required type. For example:
@@ -117,6 +137,14 @@ This plugin supports development with enabled code reloading (`grails run-app`) 
 *   When you add/remove annotated variable
 *   When you change config variable value in `Config.groovy`
 *   When you change value of `@GrailsConfig` annotation
+
+@GrailsConfig and Grails Controllers
+---------------
+Don't use `@GrailsConfig` with Grails Controllers! By default Grails Controllers have `prototype` scope. As documentation [says](http://grails.org/doc/latest/guide/theWebLayer.html#controllersAndScopes) `A new controller will be created for each request`.
+It means that `@GrailsConfig` annotation will spend more resources injecting config value for each request. You've got two ways to solve this problem:
+
+1. Change controller's scope to `singleton`
+2. Move `@GrailsConfig` annotation into service.
 
 If you have any problems
 -------------------------
